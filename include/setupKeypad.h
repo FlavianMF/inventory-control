@@ -10,10 +10,10 @@ char keys[ROWS][COLS] = {{'1', '2', '3', 'A'},
                          {'7', '8', '9', 'C'},
                          {'*', '0', '#', 'D'}};
 
-// connect to the row pinouts of the keypad
-byte rowPins[ROWS] = {5, 4, 3, 2};
-// connect to the column pinouts of the keypad
-byte colPins[COLS] = {8, 7, 6, 9};
+// connect to the row pinouts of the keypad-black pins
+byte rowPins[ROWS] = {19, 18, 5, 17};
+// connect to the column pinouts of the keypad-white pins
+byte colPins[COLS] = {16, 4, 2, 15};
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
