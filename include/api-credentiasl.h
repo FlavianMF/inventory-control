@@ -3,11 +3,8 @@
 #include <Arduino.h>
 #include <HTTPClient.h>
 
-#define apiBody "https://sheets.googleapis.com/v4/spreadsheets/"
-#define spreadsheetsId "1YmKWFNZETL-sobB_1jpem_VAooBECJ2_Ki-kF74f-7c"
-
 String GOOGLE_SCRIPT_ID =
-    "AKfycbynwqo29giEX5niDY4SFVeNt9LY61hFOmVf6GqBNBSKagpUsVaEDbzmVQ";
+    "AKfycbylQfKdDpILX5CtnTop4zzHJ9qiZRlwwcZN91xZNBQoM5OQ8u0vBzRGQA";
 
 const char* root_ca =
     "-----BEGIN CERTIFICATE-----\n"
@@ -37,12 +34,13 @@ void sendData(String params) {
   HTTPClient http;
   String url = "https://script.google.com/macros/s/" + GOOGLE_SCRIPT_ID +
                "/exec?" + params;
-  Serial.print(url);
-  Serial.print("Making a request");
+  Serial.println(url);
+  Serial.println("Making a request...");
   http.begin(url, root_ca);  // Specify the URL and certificate
   int httpCode = http.GET();
   http.end();
-  Serial.println(": done " + httpCode);
+  Serial.print("Done, Request code: ");
+  Serial.println(httpCode);
 }
 
 #endif  // __API-CREDENTIASL_H__

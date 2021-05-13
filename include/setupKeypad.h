@@ -11,21 +11,12 @@ char keys[ROWS][COLS] = {{'1', '2', '3', 'A'},
                          {'*', '0', '#', 'D'}};
 
 // connect to the row pinouts of the keypad-black pins
-byte rowPins[ROWS] = {19, 18, 5, 17};
+// byte rowPins[ROWS] = {32, 33, 25, 26};
+byte rowPins[ROWS] = {13, 12, 14, 27};
 // connect to the column pinouts of the keypad-white pins
-byte colPins[COLS] = {16, 4, 2, 15};
+// byte colPins[COLS] = {27, 14, 12, 13};
+byte colPins[COLS] = {26, 25, 33, 32};
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
-
-void keypadEvent(KeypadEvent key) {
-  switch (keypad.getState()) {
-    case PRESSED:
-      break;
-    case RELEASED:
-      break;
-    case HOLD:
-      break;
-  }
-}
 
 #endif  // __SETUPKEYPAD_H__

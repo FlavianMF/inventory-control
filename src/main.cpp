@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <HTTPClient.h>
 #include <Keypad.h>
-#include <LiquidCrystal_I2C.h>
+// #include <LiquidCrystal_I2C.h>
 #include <WiFi.h>
 #include <Wire.h>
 
@@ -57,6 +57,7 @@ void getValueFromKeypad(int* informations) {
         break;
       default:
         key -= '0';
+        if (key < 0 || key > 9) break;
         informations[information] *= 10;
         informations[information] += key;
         break;
@@ -69,10 +70,6 @@ void getValueFromKeypad(int* informations) {
 
 void sendInformations(int* informations) {
   Serial.println("init send");
-  Serial.println(informations[0]);
-  Serial.println(informations[1]);
-  Serial.println(informations[2]);
-
   String queryParams = "ID=";
   queryParams += (String)informations[0];
   queryParams += "&PROJECT=";
@@ -80,7 +77,12 @@ void sendInformations(int* informations) {
   queryParams += "&QTD=";
   queryParams += (String)informations[2];
   Serial.println(queryParams);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Sending Data ...");
   sendData(queryParams);
+  lcd.print("Finished Sending");
+  delay(1000);
 }
 
 void setup() {
@@ -89,26 +91,27 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(SSID, PASS);
 
+  // lcd.begin(16, 2);
+  lcd.init();
+  lcd.backlight();
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(" Connecting ... ");
   Serial.println("Started");
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-
-  // keypad.addEventListener(
-  //     keypadEvent);  // Add an event listener for this keypad
-  lcd.begin(16, 2);
-  lcd.backlight();
-
+  lcd.setCursor(0, 1);
+  lcd.print("Connected!");
   Serial.println("Ready to go");
+  sendData("");
 }
 
 void loop() {
   int informations[3] = {0, 0, 0};
   getValueFromKeypad(informations);
   sendInformations(informations);
-  Serial.println(informations[0]);
-  Serial.println(informations[1]);
-  Serial.println(informations[2]);
 }
